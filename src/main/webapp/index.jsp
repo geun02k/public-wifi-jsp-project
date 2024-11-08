@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>와이파이 정보 구하기</title>
+    <script src="js/index.js"></script>
 </head>
 <style>
     body {
@@ -35,8 +36,14 @@
 | <a href="/load_wifi.jsp">Open API 와이파이 정보 가져오기</a>
 <br/><br/>
 
-LAT: <input name="lat" type="number" /> , LNT: <input name="lnt" type="number" />
-<button>내 위치 가져오기</button> <button>근처 WIFI 정보 보기</button>
+LAT: <input id="lat" name="lat" type="number" value="0.0"/>
+, LNT: <input id="lnt" name="lnt" type="number" value="0.0"/>
+<button id="find-me">내 위치 가져오기</button>
+<button>근처 WIFI 정보 보기</button>
+<!-- 위치정보 가져오기 테스트코드
+    <p id="status"></p>
+    <a id="map-link" target="_blank"></a>
+-->
 <br/><br/>
 
 <table>
