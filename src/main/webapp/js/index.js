@@ -1,7 +1,10 @@
 
 window.onload = function() {
-    document.querySelector("#find-me").addEventListener("click", getMyLocation);
-    //document.querySelector("#find-me").addEventListener("click", geoFindMe);
+    $("#find-my-location").on("click", getMyLocation);
+    $("#search-wifi-list").on("click", getWifiListByCurLocation);
+    // document.querySelector("#find-my-location").addEventListener("click", getMyLocation);
+    // document.querySelector("#search-wifi-list").addEventListener("click", getWifiListByCurLocation);
+    //document.querySelector("#ind-my-location").addEventListener("click", geoFindMe);
 }
 
 /**
@@ -30,8 +33,32 @@ function getMyLocation() {
 }
 
 /**
- * 위치정보 가져오기 테스트코드
+ * 근처 WIFI 정보 보기
  */
+function getWifiListByCurLocation() {
+
+    $.ajax({
+       type: "GET"         // HttpMethod
+        , url: "/wifi/list" // 서버 URL
+        , contentType: "application/json; charset=utf-8" // request 데이터타입
+        , dataType: "text"  // response 데이터타입 (실제 서버에서 전달하는 response 타입과 일치해야함.)
+        , async: true       //동기,비동기 설정
+        , data: {           // requestBody : 서버에 보낼 데이터
+             lat: $("#lat").val(),
+             lnt: $("#lnt").val()
+        }
+        , success: function (data, status, xhr) { //통신성공 후 처리로직
+            $("#wifi-list-tbody").html(data);
+       }
+       , error :function (xhr, data) { // 통신실패 후 처리로직
+           alert("통신실패");
+        }
+    });
+}
+
+//------------------------------------------------------------------------
+
+// 위치정보 가져오기 테스트코드
 function geoFindMe() {
     const status = document.querySelector("#status");
     const mapLink = document.querySelector("#map-link");

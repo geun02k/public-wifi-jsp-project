@@ -26,4 +26,5 @@ public class Wifi {
     private double lat;         // Y좌표
     private double lnt;         // X좌표
     private LocalDateTime workDt; // 작업일자
+    private double distance;    // 거리
 }

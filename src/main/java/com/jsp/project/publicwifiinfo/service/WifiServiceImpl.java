@@ -46,7 +46,8 @@ public class WifiServiceImpl implements WifiService {
 
     @Override
     public List<Wifi> getWifiList(Location location) {
-        return null;
+        List<Wifi> wifiList = wifiRepository.selectWifi(location);
+        return wifiList;
     }
 
     @Override

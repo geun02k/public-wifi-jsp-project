@@ -1,10 +1,14 @@
 package com.jsp.project.publicwifiinfo.repository;
 
 import com.jsp.project.publicwifiinfo.db.SQLiteManager;
+import com.jsp.project.publicwifiinfo.model.Location;
 import com.jsp.project.publicwifiinfo.model.Wifi;
 
 import java.sql.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WifiRepository {
@@ -108,4 +112,88 @@ public class WifiRepository {
 
         return insertedCnt;
     }
+
+    public List<Wifi> selectWifi(Location location) {
+        final int LIMIT_CNT = 20;
+
+        List<Wifi> wifiList = new ArrayList<>();
+
+        String sql = "select MNGR_NO" +
+                    "    , round((6371*acos(cos(radians(?))*cos(radians(LAT))*cos(radians(LNT)\n" +
+                    "        - radians(?))+sin(radians(?))*sin(radians(LAT)))), 4) AS DISTANCE\n" +
+                    "    , LAT -- 37.486592 (위도)\n" +
+                    "    , LNT -- 126.8973568 (경도)\n" +
+                    "    , WRDOFC\n" +
+                    "    , WIFI_NM\n" +
+                    "    , ADDR1\n" +
+                    "    , ADDR2\n" +
+                    "    , INSTALL_FLOOR\n" +
+                    "    , INSTALL_TY\n" +
+                    "    , INSTALL_MBY\n" +
+                    "    , SVC_SE\n" +
+                    "    , CMCRWR\n" +
+                    "    , CNSTC_YEAR\n" +
+                    "    , INOUT_DOOR\n" +
+                    "    , CON_ENVIRONMENT\n" +
+                    "    , WORK_DT\n" +
+                " from WIFI\n" +
+                " ORDER BY DISTANCE ASC\n" +
+                " LIMIT ?";
+
+        SQLiteManager manager = new SQLiteManager();
+        Connection conn = manager.createConnection();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setDouble(1, location.getLat());
+            pstmt.setDouble(2, location.getLnt());
+            pstmt.setDouble(3, location.getLat());
+            pstmt.setInt(4, LIMIT_CNT);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                Wifi wifi = new Wifi();
+                wifi.setMngrNo(rs.getString("MNGR_NO"));
+                wifi.setDistance(rs.getDouble("DISTANCE"));
+                wifi.setLat(rs.getDouble("LAT"));
+                wifi.setLnt(rs.getDouble("LNT"));
+                wifi.setWrdofc(rs.getString("WRDOFC"));
+                wifi.setWifiNm(rs.getString("WIFI_NM"));
+                wifi.setAddr1(rs.getString("ADDR1"));
+                wifi.setAddr2(rs.getString("ADDR2"));
+                wifi.setInstallFloor(rs.getString("INSTALL_FLOOR"));
+                wifi.setInstallTy(rs.getString("INSTALL_TY"));
+                wifi.setInstallMby(rs.getString("INSTALL_MBY"));
+                wifi.setSvcSe(rs.getString("SVC_SE"));
+                wifi.setCmcrwr(rs.getString("CMCRWR"));
+                wifi.setCnstcYear(rs.getString("CNSTC_YEAR"));
+                wifi.setInoutDoor(rs.getString("INOUT_DOOR"));
+                wifi.setConEnvironment(rs.getString("CON_ENVIRONMENT"));
+
+                String sWorkDttm = String.valueOf(rs.getTimestamp("WORK_DT")); //2024-11-08 11:13:14.0
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+                wifi.setWorkDt(LocalDateTime.parse(sWorkDttm, formatter));
+
+                wifiList.add(wifi);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if(pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            manager.closeConnection();
+        }
+
+        return wifiList;
+    }
+
 }
