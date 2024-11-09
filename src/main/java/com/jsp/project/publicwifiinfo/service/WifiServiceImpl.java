@@ -26,7 +26,7 @@ public class WifiServiceImpl implements WifiService {
                 List<Wifi> wifiList = api.wifiInfoList(startIdx, endIdx);
                 // DB에 데이터 다건 저장
                 System.out.println("-- startIdx=" + startIdx + " / endIdx=" + endIdx);
-                saveCnt += wifiRepository.insertWifiInfoList(wifiList);
+                saveCnt += wifiRepository.insertWifiList(wifiList);
 
                 //startIdx = startIdx + api.MAX_SEARCH_CNT + 1;
                 startIdx = startIdx + api.MAX_SEARCH_CNT + 1;
@@ -46,7 +46,7 @@ public class WifiServiceImpl implements WifiService {
 
     @Override
     public List<Wifi> getWifiList(Location location) {
-        List<Wifi> wifiList = wifiRepository.selectWifi(location);
+        List<Wifi> wifiList = wifiRepository.selectWifiList(location);
         return wifiList;
     }
 

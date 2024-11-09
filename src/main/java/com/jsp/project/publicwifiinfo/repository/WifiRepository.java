@@ -17,7 +17,7 @@ public class WifiRepository {
      * @param wifiList
      * @return int 저장 건 수
      */
-    public int insertWifiInfoList(List<Wifi> wifiList) {
+    public int insertWifiList(List<Wifi> wifiList) {
         String sql = "INSERT INTO WIFI(" +
                 " MNGR_NO" +
                 " , WRDOFC" +
@@ -113,7 +113,7 @@ public class WifiRepository {
         return insertedCnt;
     }
 
-    public List<Wifi> selectWifi(Location location) {
+    public List<Wifi> selectWifiList(Location location) {
         final int LIMIT_CNT = 20;
 
         List<Wifi> wifiList = new ArrayList<>();
