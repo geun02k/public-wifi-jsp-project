@@ -49,14 +49,4 @@ public class WifiServiceImpl implements WifiService {
         List<Wifi> wifiList = wifiRepository.selectWifiList(location);
         return wifiList;
     }
-
-    @Override
-    public int saveLocationHistory(Location location) {
-        return 0;
-    }
-
-    @Override
-    public int getLocationHistory() {
-        return 0;
-    }
 }
