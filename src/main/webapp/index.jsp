@@ -5,38 +5,10 @@
     <title>와이파이 정보 구하기</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <script src="js/index.js"></script>
+    <link rel="stylesheet" href="css/common.css" />
 </head>
-<style>
-    body {
-        font-size: 12px;
-    }
-    button {
-        font-size: 12px;
-    }
-    table {
-        width: 100%;
-    }
-    th {
-        border: 1px solid white;
-        background-color:#4CA874;
-        color: white;
-    }
-    tr:nth-child(odd) {
-        background-color: #FFFFFF;
-    }
-    tr:nth-child(even) {
-        background-color: #F2F2F2;
-    }
-    table, td {
-        border: 1px solid gray;
-        border-collapse: collapse;
-    }
-    td, th {
-        padding: 5px;
-    }
-</style>
-<body>
 
+<body>
 <h1>와이파이 정보 구하기</h1>
 <a href="/index.jsp">홈</a>
 | <a>위치 히스토리 목록</a>

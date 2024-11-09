@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+body {
+    font-size: 12px;
+}
+button {
+    font-size: 12px;
+}
+table {
+    width: 100%;
+}
+th {
+    border: 1px solid white;
+    background-color:#4CA874;
+    color: white;
+}
+tr:nth-child(odd) {
+    background-color: #FFFFFF;
+}
+tr:nth-child(even) {
+    background-color: #F2F2F2;
+}
+table, td {
+    border: 1px solid gray;
+    border-collapse: collapse;
+}
+td, th {
+    padding: 5px;
+}
