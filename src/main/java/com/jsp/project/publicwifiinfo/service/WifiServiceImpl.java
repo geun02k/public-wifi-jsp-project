@@ -46,6 +46,11 @@ public class WifiServiceImpl implements WifiService {
 
     @Override
     public List<Wifi> getWifiList(Location location) {
+        // 위치 히스토리 저장
+        LocationService locationService = new LocationServiceImpl();
+        locationService.saveLocationHistory(location);
+
+        // wifi 목록 조회
         List<Wifi> wifiList = wifiRepository.selectWifiList(location);
         return wifiList;
     }
