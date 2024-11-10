@@ -13,7 +13,7 @@ import java.util.List;
 
 public class WifiRepository {
     /**
-     * wifi 목록 WIFI 테이블에 insert
+     * wifi목록 WIFI 테이블에 insert
      * @param wifiList
      * @return int 저장 건 수
      */
@@ -113,6 +113,10 @@ public class WifiRepository {
         return insertedCnt;
     }
 
+    /**
+     * wifi목록 WIFI 테이블에서 조회
+     * @return List<Wifi> wifi목록
+     */
     public List<Wifi> selectWifiList(Location location) {
         final int LIMIT_CNT = 20;
 
