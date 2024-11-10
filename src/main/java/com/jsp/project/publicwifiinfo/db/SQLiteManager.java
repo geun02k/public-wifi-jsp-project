@@ -7,9 +7,9 @@ import java.sql.SQLException;
 public class SQLiteManager {
     // DB 변수
     private static final String JDBC_DRIVER = "org.sqlite.JDBC";
-    private static final String FILE_DB_URL = "jdbc:sqlite:C:\\workspace\\public-wifi-info\\public_wifi";
+    private static final String FILE_DB_URL = "jdbc:sqlite:C:\\workspace\\public-wifi-info\\public_wifi.db";
     //private static final String FILE_DB_URL = "jdbc:sqlite:" + System.getProperty("user.dir") + "\\public_wifi";
-    private static final String MEMORY_DB_URL = "jdbc:sqlite::memory";
+    //private static final String MEMORY_DB_URL = "jdbc:sqlite::memory";
 
     // DB 옵션변수
     private static final boolean OPT_AUTO_COMMIT = false;
