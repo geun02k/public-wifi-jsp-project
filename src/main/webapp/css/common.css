@@ -27,3 +27,9 @@ table, td {
 td, th {
     padding: 5px;
 }
+.btn_div {
+    text-align: center;
+}
+.delete_btn {
+    display: inline-block;
+}
