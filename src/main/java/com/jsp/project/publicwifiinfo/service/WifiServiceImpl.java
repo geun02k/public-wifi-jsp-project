@@ -28,7 +28,6 @@ public class WifiServiceImpl implements WifiService {
                 System.out.println("-- startIdx=" + startIdx + " / endIdx=" + endIdx);
                 saveCnt += wifiRepository.insertWifiList(wifiList);
 
-                //startIdx = startIdx + api.MAX_SEARCH_CNT + 1;
                 startIdx = startIdx + api.MAX_SEARCH_CNT + 1;
                 if(startIdx + api.MAX_SEARCH_CNT > totCnt) {
                     endIdx = totCnt;
@@ -53,5 +52,10 @@ public class WifiServiceImpl implements WifiService {
         // wifi 목록 조회
         List<Wifi> wifiList = wifiRepository.selectWifiList(location);
         return wifiList;
+    }
+
+    @Override
+    public Wifi getWifiByMngrNo(String mngrNo, Location location) {
+        return wifiRepository.selectWifi(mngrNo, location);
     }
 }

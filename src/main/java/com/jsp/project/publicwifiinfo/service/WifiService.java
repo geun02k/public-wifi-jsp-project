@@ -7,10 +7,13 @@ import java.util.List;
 
 public interface WifiService {
 
-    // open api 와이파이 정보 저장(api호출 후 저장)
+    // open api 와이파이정보 목록 저장 (api호출 후 저장)
     int saveWifiList();
 
-    // 근처 wifi정보보기(db의 wifi정보 조회)
+    // 근처 wifi 목록 조회 (db의 wifi정보 조회)
     List<Wifi> getWifiList(Location location);
+
+    // wifi 상세정보 조회
+    Wifi getWifiByMngrNo(String mngrNo, Location location);
 
 }

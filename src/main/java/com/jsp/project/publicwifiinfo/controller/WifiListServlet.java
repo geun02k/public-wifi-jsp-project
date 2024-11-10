@@ -43,13 +43,23 @@ public class WifiListServlet extends  HttpServlet{
         response.setCharacterEncoding("utf-8");
 
         PrintWriter out = response.getWriter();
+        for(int i = 0; i < list.size(); i++) {
+            Wifi wifi = list.get(i);
 
-        for(Wifi wifi : list) {
+            String url = "/bookmark/wifi_detail.jsp"
+                    + "?mngrNo=" + wifi.getMngrNo()
+                    + "&lat=" + location.getLat()
+                    + "&lnt=" + location.getLnt();
+
             out.println("<tr>");
             out.println("   <td>" + wifi.getDistance() + "</td>");
             out.println("   <td>" + wifi.getMngrNo() + "</td>");
             out.println("   <td>" + wifi.getWrdofc() + "</td>");
-            out.println("   <td>" + wifi.getWifiNm() + "</td>");
+            out.println("   <td>");
+            out.println("       <a href='" + url +  "'>");
+            out.println(           wifi.getWifiNm());
+            out.println("       </a>");
+            out.println("   </td>");
             out.println("   <td>" + wifi.getAddr1() + "</td>");
             out.println("   <td>" + wifi.getAddr2() + "</td>");
             out.println("   <td>" + wifi.getInstallFloor() + "</td>");

@@ -200,4 +200,82 @@ public class WifiRepository {
         return wifiList;
     }
 
+    /**
+     * 관리번호(mngr_no)에 일치하는 wifi목록을 WIFI 테이블에서 단건 조회
+     * @param mngrNo 관리번호
+     * @return Wifi wifi정보
+     */
+    public Wifi selectWifi(String mngrNo, Location location) {
+        Wifi rsWifi = new Wifi();
+
+        String sql = "SELECT MNGR_NO" +
+                "    , round((6371*acos(cos(radians(?))*cos(radians(LAT))*cos(radians(LNT)\n" +
+                "        - radians(?))+sin(radians(?))*sin(radians(LAT)))), 4) AS DISTANCE\n" +
+                "    , LAT -- 37.486592 (위도)\n" +
+                "    , LNT -- 126.8973568 (경도)\n" +
+                "    , WRDOFC\n" +
+                "    , WIFI_NM\n" +
+                "    , ADDR1\n" +
+                "    , ADDR2\n" +
+                "    , INSTALL_FLOOR\n" +
+                "    , INSTALL_TY\n" +
+                "    , INSTALL_MBY\n" +
+                "    , SVC_SE\n" +
+                "    , CMCRWR\n" +
+                "    , CNSTC_YEAR\n" +
+                "    , INOUT_DOOR\n" +
+                "    , CON_ENVIRONMENT\n" +
+                "    , WORK_DT\n" +
+                " FROM WIFI\n" +
+                " WHERE MNGR_NO = ? \n";
+
+        SQLiteManager manager = new SQLiteManager();
+        Connection conn = manager.createConnection();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setDouble(1, location.getLat());
+            pstmt.setDouble(2, location.getLnt());
+            pstmt.setDouble(3, location.getLat());
+            pstmt.setString(4, mngrNo);
+
+            ResultSet rs = pstmt.executeQuery();
+            rsWifi.setMngrNo(rs.getString("MNGR_NO"));
+            rsWifi.setDistance(rs.getDouble("DISTANCE"));
+            rsWifi.setLat(rs.getDouble("LAT"));
+            rsWifi.setLnt(rs.getDouble("LNT"));
+            rsWifi.setWrdofc(rs.getString("WRDOFC"));
+            rsWifi.setWifiNm(rs.getString("WIFI_NM"));
+            rsWifi.setAddr1(rs.getString("ADDR1"));
+            rsWifi.setAddr2(rs.getString("ADDR2"));
+            rsWifi.setInstallFloor(rs.getString("INSTALL_FLOOR"));
+            rsWifi.setInstallTy(rs.getString("INSTALL_TY"));
+            rsWifi.setInstallMby(rs.getString("INSTALL_MBY"));
+            rsWifi.setSvcSe(rs.getString("SVC_SE"));
+            rsWifi.setCmcrwr(rs.getString("CMCRWR"));
+            rsWifi.setCnstcYear(rs.getString("CNSTC_YEAR"));
+            rsWifi.setInoutDoor(rs.getString("INOUT_DOOR"));
+            rsWifi.setConEnvironment(rs.getString("CON_ENVIRONMENT"));
+
+            String sWorkDttm = String.valueOf(rs.getTimestamp("WORK_DT")); //2024-11-08 11:13:14.0
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S");
+            rsWifi.setWorkDt(LocalDateTime.parse(sWorkDttm, formatter));
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if(pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            manager.closeConnection();
+        }
+        return rsWifi;
+    }
 }
