@@ -1,6 +1,6 @@
 -- wifi정보
 CREATE TABLE `WIFI` (
-	`MNGR_NO`         VARCHAR(8)   NOT NULL , -- 관리번호
+	`MNGR_NO`         VARCHAR(20)  NOT NULL , -- 관리번호 (SQLite는 자리수를 제한하지는 않음.)
 	`WRDOFC`          VARCHAR(20)  NULL     , -- 자치구
 	`WIFI_NM`         VARCHAR(500) NULL     , -- 와이파이명
 	`ADDR1`           VARCHAR(300) NULL     , -- 도로명주소
