@@ -21,15 +21,15 @@ tr:nth-child(even) {
     background-color: #F2F2F2;
 }
 table, td {
-    border: 1px solid gray;
+    border: 1px solid #DEDEDE;
     border-collapse: collapse;
 }
 td, th {
     padding: 5px;
 }
-.btn_div {
+.center-align-div {
     text-align: center;
 }
-.delete_btn {
+.inline-block-btn {
     display: inline-block;
 }
