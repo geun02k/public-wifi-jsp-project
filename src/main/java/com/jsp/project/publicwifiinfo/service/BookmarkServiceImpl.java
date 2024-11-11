@@ -15,7 +15,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     public Bookmark getBookmark(Bookmark bookmark) {
-        return null;
+        return repository.selectBookmarkById(bookmark);
     }
 
     @Override
@@ -43,6 +43,11 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     public int deleteBookmark(Bookmark bookmark) {
-        return 0;
+        // validation check
+        if(bookmark.getId() <= 0) {
+            return -5;
+        }
+
+        return repository.deleteBookmark(bookmark);
     }
 }

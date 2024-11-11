@@ -65,6 +65,66 @@ public class BookmarkRepository {
 
         return list;
     }
+
+    /**
+     * 북마크id와 일치하는 북마크 단건 BOOKMARK 테이블에서 조회
+     * @param bookmark 북마크id를 가지는 Bookmark 객체
+     * @return bookmarkGroups 코드와 일치하는 북마크그룹정보를 가진 BookmarkGroup 객체
+     */
+    public Bookmark selectBookmarkById(Bookmark bookmark) {
+        Bookmark reBookmark = null;
+
+        String sql = "SELECT MARK.ID \n" +
+                "    , MARK.WIFI_MNGR_NO \n" +
+                "    , WIFI.WIFI_NM \n" +
+                "    , MARK.GROUP_CODE \n" +
+                "    , GRP.NAME AS GROUP_NM \n" +
+                "    , MARK.REG_DT \n" +
+                " FROM BOOKMARK AS MARK \n" +
+                " LEFT JOIN BOOKMARK_GROUP AS GRP \n" +
+                " ON MARK.GROUP_CODE = GRP.CODE \n" +
+                " LEFT JOIN WIFI AS WIFI \n" +
+                " ON MARK.WIFI_MNGR_NO = WIFI.MNGR_NO \n" +
+                " WHERE MARK.ID = ? \n";
+
+        SQLiteManager manager = new SQLiteManager();
+        Connection conn = manager.createConnection();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, bookmark.getId());
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                reBookmark = new Bookmark();
+
+                reBookmark.setId(rs.getInt("ID"));
+                reBookmark.setWifiMngrNo(rs.getString("WIFI_MNGR_NO"));
+                reBookmark.setWifiNm(rs.getString("WIFI_NM"));
+                reBookmark.setGroupCode(rs.getInt("GROUP_CODE"));
+                reBookmark.setGroupNm(rs.getString("GROUP_NM"));
+                reBookmark.setRegDt(changeSqlDtToJavaDt(rs.getTimestamp("REG_DT")));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        } finally {
+            if(pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            manager.closeConnection();
+        }
+
+        return reBookmark;
+    }
+
     /**
      * 동일 북마크그룹, 와이파이관리번호에 일치하는 북마크목록 건 수 BOOKMARK 테이블에서 조회
      * @param bookmark 북마크 그룹, 와이파이관리번호 정보를 가진 Bookmark 객체
@@ -112,7 +172,6 @@ public class BookmarkRepository {
 
     /**
      * 북마크정보를 BOOKMARK 테이블에 insert
-     *
      * @param bookmark 북마크정보를 가진 Bookmark객체
      * @return int 저장 건 수
      */
@@ -165,5 +224,53 @@ public class BookmarkRepository {
         }
 
         return insertedCnt;
+    }
+
+    /**
+     * 북마크정보를 BOOKMARK 테이블에서 delete
+     * @param bookmark 북마크정보를 가진 Bookmark객체
+     * @return int 저장 건 수
+     */
+    public int deleteBookmark(Bookmark bookmark) {
+        int deletedCnt = 0;
+
+        String sql = "DELETE FROM BOOKMARK" +
+                "     WHERE ID = ? \n";
+
+        SQLiteManager manager = new SQLiteManager();
+        Connection conn = manager.createConnection();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, bookmark.getId());
+
+            deletedCnt = pstmt.executeUpdate();
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            if(conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            if(pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            manager.closeConnection();
+        }
+
+        return deletedCnt;
     }
 }

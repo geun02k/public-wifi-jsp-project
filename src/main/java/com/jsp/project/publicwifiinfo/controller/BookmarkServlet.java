@@ -58,6 +58,38 @@ public class BookmarkServlet extends  HttpServlet{
         }
     }
 
+
+    @Override
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("/bookmark doDelete()");
+
+        // 요청 데이터 파싱
+        JsonDataParsing jsonParser = new JsonDataParsing();
+        JSONObject json = jsonParser.parseRequestJson(request);
+
+        Bookmark bookmark = new Bookmark();
+        bookmark.setId(Integer.parseInt(String.valueOf(json.get("id"))));
+
+        // 비즈니스 로직 실행
+        int deleteCnt = service.deleteBookmark(bookmark);
+
+        // 응답 데이터 셋팅
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("utf-8");
+
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(deleteCnt > 0) {
+            out.write("SUCCESS");
+        } else {
+            out.write("FAIL");
+        }
+    }
     public void destroy() {
     }
 }

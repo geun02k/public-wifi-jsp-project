@@ -39,7 +39,7 @@
             <td><%=bookmark.getRegDt()%></td>
             <td>
                 <div class="center-align-div">
-                    <a href="">
+                    <a href="/bookmark/bookmark-delete.jsp?id=<%=bookmark.getId()%>">
                         삭제
                     </a>
                 </div>
