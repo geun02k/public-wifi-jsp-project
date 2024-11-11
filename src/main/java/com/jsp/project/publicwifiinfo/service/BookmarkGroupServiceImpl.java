@@ -15,7 +15,25 @@ public class BookmarkGroupServiceImpl implements BookmarkGroupService {
 
     @Override
     public int saveGroup(BookmarkGroup group) {
-        return 0;
+        String groupName = group.getName();
+        int groupSeq = group.getSeq();
+
+        // validation check
+        if(groupName == null || groupName.trim().equals("")) {
+            return -1;
+        }
+
+        if(groupSeq <= 0) {
+            return -1;
+        }
+
+        //순서중복제거
+        int duplCnt = groupRepository.selectBookmarkGroupCntBySeq(groupSeq);
+        if(duplCnt > 0) {
+            return -1;
+        }
+
+        return groupRepository.insertBookmarkGroup(group);
     }
 
     @Override

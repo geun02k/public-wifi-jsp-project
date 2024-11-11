@@ -15,7 +15,7 @@
 <h1>북마크 그룹</h1>
 <%@include file="../menu.jsp"%>
 
-<button>
+<button onclick="location.href='bookmark-group-add.jsp'">
     북마크 그룹 이름 추가
 </button>
 <br/><br/>
