@@ -10,7 +10,7 @@ public class BookmarkServiceImpl implements BookmarkService {
 
     @Override
     public List<Bookmark> getBookmarkList() {
-        return null;
+        return repository.selectBookmarkList();
     }
 
     @Override

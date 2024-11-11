@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 public class Bookmark {
     private int id;
     private String wifiMngrNo;
+    private String wifiNm;
     private int groupCode;
+    private String groupNm;
     private LocalDateTime regDt;
 }
