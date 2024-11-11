@@ -3,12 +3,17 @@
 <%@page import="com.jsp.project.publicwifiinfo.service.WifiServiceImpl"%>
 <%@ page import="java.sql.Timestamp" %>
 <%@ page import="com.jsp.project.publicwifiinfo.model.Location" %>
+<%@ page import="com.jsp.project.publicwifiinfo.service.BookmarkGroupService" %>
+<%@ page import="com.jsp.project.publicwifiinfo.service.BookmarkGroupServiceImpl" %>
+<%@ page import="com.jsp.project.publicwifiinfo.model.BookmarkGroup" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>와이파이 정보 구하기</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="../js/wifi-detail.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
 </head>
 
@@ -16,6 +21,25 @@
 <h1>와이파이 정보 구하기</h1>
 <%@include file="../menu.jsp"%>
 
+<%
+    //select박스 조회
+    BookmarkGroupService bookmarkGroupService = new BookmarkGroupServiceImpl();
+    List<BookmarkGroup> groupList = bookmarkGroupService.getGroupList();
+%>
+
+<div>
+    <!-- 북마크 그룹 이름 선택 select박스, 북마크 추가하기버튼 -->
+    <select id="bookmarkGroup">
+        <option value="">북마크 그룹 이름 선택</option>
+        <% for(int i = 0; i < groupList.size(); i++) { %>
+        <option value="<%=groupList.get(i).getCode()%>">
+            <%=groupList.get(i).getName()%>
+        </option>
+        <% } %>
+    </select>
+    <button id="bntAddBookmarkGroup">북마크 추가하기</button>
+</div>
+<br/><br/>
 
 <%
     String mngrNo = request.getParameter("mngrNo");
@@ -42,7 +66,7 @@
         </tr>
         <tr>
             <th>관리번호</th>
-            <td><%=wifiInfo.getMngrNo()%></td>
+            <td id="mngrNo"><%=wifiInfo.getMngrNo()%></td>
         </tr>
         <tr>
             <th>자치구</th>
