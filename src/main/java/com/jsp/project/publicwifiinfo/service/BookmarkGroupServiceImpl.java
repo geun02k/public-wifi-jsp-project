@@ -25,17 +25,17 @@ public class BookmarkGroupServiceImpl implements BookmarkGroupService {
 
         // validation check
         if(groupName == null || groupName.trim().equals("")) {
-            return -1;
+            return -5;
         }
 
         if(groupSeq <= 0) {
-            return -1;
+            return -5;
         }
 
         //순서중복제거
         int duplCnt = groupRepository.selectBookmarkGroupCntBySeq(groupSeq);
         if(duplCnt > 0) {
-            return -1;
+            return -10;
         }
 
         return groupRepository.insertBookmarkGroup(group);
