@@ -74,7 +74,7 @@
         </tr>
         <tr>
             <th>와이파이명</th>
-            <td><%=wifiInfo.getWifiNm()%></td>
+            <td><a href=""><%=wifiInfo.getWifiNm()%></a></td>
         </tr>
         <tr>
             <th>도로명주소</th>
