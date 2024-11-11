@@ -261,4 +261,46 @@ public class BookmarkGroupRepository {
         return updatedCnt;
     }
 
+    public int deleteBookmarkGroup(BookmarkGroup group) {
+        int deletedCnt = 0;
+
+        String sql = "DELETE FROM BOOKMARK_GROUP" +
+                "     WHERE CODE = ? \n";
+
+        SQLiteManager manager = new SQLiteManager();
+        Connection conn = manager.createConnection();
+        PreparedStatement pstmt = null;
+
+        try {
+            pstmt = conn.prepareStatement(sql);
+
+            pstmt.setInt(1, group.getCode());
+
+            deletedCnt = pstmt.executeUpdate();
+
+            conn.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            if(conn != null) {
+                try {
+                    conn.rollback();
+                } catch (SQLException ex) {
+                    e.printStackTrace();
+                }
+            }
+        } finally {
+            if(pstmt != null) {
+                try {
+                    pstmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            manager.closeConnection();
+        }
+
+        return deletedCnt;
+    }
 }

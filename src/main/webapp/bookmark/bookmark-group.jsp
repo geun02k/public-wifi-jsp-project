@@ -9,6 +9,7 @@
     <title>와이파이 정보 구하기</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
     <link rel="stylesheet" href="../css/common.css" />
+    <script src="../js/bookmark-group.js"></script>
 </head>
 
 <body>
@@ -56,8 +57,12 @@
         <td><%=groupList.get(i).getUpdateDt() == null ? "" : groupList.get(i).getUpdateDt()%></td>
         <td>
             <div class="center-align-div">
-                <a href="bookmark-group-edit.jsp?code=<%=groupList.get(i).getCode()%>" class="inline-block-btn">수정</a>
-                <a href="" class="inline-block-btn">삭제</a>
+                <a href="bookmark-group-edit.jsp?code=<%=groupList.get(i).getCode()%>" class="inline-block-btn">
+                    수정
+                </a>
+                <a id="deleteGroupBtn" onclick="return deleteGroup(<%=groupList.get(i).getCode()%>);" href="" class="inline-block-btn">
+                    삭제
+                </a>
             </div>
         </td>
     </tr>

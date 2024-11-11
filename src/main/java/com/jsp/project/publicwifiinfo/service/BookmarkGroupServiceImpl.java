@@ -71,6 +71,13 @@ public class BookmarkGroupServiceImpl implements BookmarkGroupService {
 
     @Override
     public int deleteGroup(BookmarkGroup group) {
-        return 0;
+        int groupCode = group.getCode();
+
+        // validation check
+        if(groupCode <= 0) {
+            return -5;
+        }
+
+        return groupRepository.deleteBookmarkGroup(group);
     }
 }

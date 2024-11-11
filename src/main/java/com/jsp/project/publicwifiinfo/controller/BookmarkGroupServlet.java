@@ -23,7 +23,7 @@ public class BookmarkGroupServlet extends  HttpServlet{
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("/bookmarkGroup doPost()");
 
         // 요청 데이터 파싱
@@ -61,7 +61,7 @@ public class BookmarkGroupServlet extends  HttpServlet{
 
 
     @Override
-    public void doPut(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
+    public void doPut(HttpServletRequest request, HttpServletResponse response) {
         System.out.println("/bookmarkGroup doPut()");
 
         // 요청 데이터 파싱
@@ -74,7 +74,7 @@ public class BookmarkGroupServlet extends  HttpServlet{
         group.setSeq(Integer.parseInt(String.valueOf(json.get("groupSeq"))));
 
         // 비즈니스 로직 실행
-        int savedCnt = service.updateGroup(group);
+        int updatedCnt = service.updateGroup(group);
 
         // 응답 데이터 셋팅
         response.setContentType("text/plain");
@@ -87,17 +87,50 @@ public class BookmarkGroupServlet extends  HttpServlet{
             e.printStackTrace();
         }
 
-        if(savedCnt > 0) {
+        if(updatedCnt > 0) {
             out.write("SUCCESS");
-        } else if(savedCnt == -5) {
+        } else if(updatedCnt == -5) {
             out.write("FAIL_5"); // 필수값없음
-        } else if(savedCnt == -10) {
+        } else if(updatedCnt == -10) {
             out.write("FAIL_10"); // SEQ 중복
         } else {
             out.write("FAIL");
         }
     }
 
+    @Override
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) {
+        System.out.println("/bookmarkGroup doDelete()");
+
+        // 요청 데이터 파싱
+        JsonDataParsing jsonParser = new JsonDataParsing();
+        JSONObject json = jsonParser.parseRequestJson(request);
+
+        BookmarkGroup group = new BookmarkGroup();
+        group.setCode(Integer.parseInt(String.valueOf(json.get("groupCode"))));
+
+        // 비즈니스 로직 실행
+        int deletedCnt = service.deleteGroup(group);
+
+        // 응답 데이터 셋팅
+        response.setContentType("text/plain");
+        response.setCharacterEncoding("utf-8");
+
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if(deletedCnt > 0) {
+            out.write("SUCCESS");
+        } else if(deletedCnt == -5) {
+            out.write("FAIL_5"); // 필수값없음
+        } else {
+            out.write("FAIL");
+        }
+    }
 
     public void destroy() {
     }
