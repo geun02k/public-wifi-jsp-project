@@ -4,7 +4,7 @@ CREATE TABLE 'BOOKMARK_GROUP' (
     'NAME'      VARCHAR(50) NULL,       -- 그룹명
     'SEQ'       INT         NULL,       -- 순서
     'REG_DT'    DATETIME    NOT NULL,   -- 등록일자
-    'UPDATE_DT' DATETIME    NOT NULL    -- 수정일자
+    'UPDATE_DT' DATETIME    NULL    -- 수정일자
 );
 
 -- 북마크목록
