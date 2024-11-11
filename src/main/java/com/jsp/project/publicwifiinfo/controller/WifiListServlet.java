@@ -46,7 +46,7 @@ public class WifiListServlet extends  HttpServlet{
         for(int i = 0; i < list.size(); i++) {
             Wifi wifi = list.get(i);
 
-            String url = "/bookmark/wifi_detail.jsp"
+            String url = "/wifi/wifi-detail.jsp"
                     + "?mngrNo=" + wifi.getMngrNo()
                     + "&lat=" + location.getLat()
                     + "&lnt=" + location.getLnt();

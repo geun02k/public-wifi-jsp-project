@@ -14,10 +14,8 @@
 
 <body>
 <h1>와이파이 정보 구하기</h1>
-<a href="/index.jsp">홈</a>
-| <a href="/location_history.jsp">위치 히스토리 목록</a>
-| <a href="/load_wifi.jsp">Open API 와이파이 정보 가져오기</a>
-<br/><br/>
+<%@include file="../menu.jsp"%>
+
 
 <%
     String mngrNo = request.getParameter("mngrNo");

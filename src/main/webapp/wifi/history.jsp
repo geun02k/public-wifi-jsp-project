@@ -8,7 +8,7 @@
 <head>
     <title>와이파이 정보 구하기</title>
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="../css/common.css" />
     <script>
         function deleteRow(row) {
             // console.log("deleteRow row =" + row);
@@ -24,7 +24,7 @@
                 contentType: "application/json; charset=utf-8",  // request 데이터타입
                 dataType: "text",   // response 데이터타입 (실제 서버에서 전달하는 response 타입과 일치해야함.)
                 async: true,        //동기,비동기 설정
-                data: JSON.stringify(obj),
+                data: JSON.stringify(obj),  // requestBody : 서버에 보낼 데이터
                 success: function (data, status, xhr) { //통신성공 후 처리로직
                     if(data == "SUCCESS") {
                         alert("삭제되었습니다.");
@@ -42,11 +42,8 @@
 </head>
 
 <body>
-<h1>와이파이 정보 구하기</h1>
-<a href="/index.jsp">홈</a>
-| <a href="/location_history.jsp">위치 히스토리 목록</a>
-| <a href="/load_wifi.jsp">Open API 와이파이 정보 가져오기</a>
-<br/><br/>
+<h1>위치 히스토리 목록</h1>
+<%@include file="../menu.jsp"%>
 
 <%
     LocationService service = new LocationServiceImpl();
@@ -69,8 +66,8 @@
             <td><%=locationList.get(i).getLnt()%></td>
             <td><%=locationList.get(i).getSearchDt()%></td>
             <td>
-                <div class="btn_div">
-                    <button class="delete_btn" onclick="deleteRow(<%=i%>)">삭제</button>
+                <div class="center-align-div">
+                    <button class="inline-block-btn" onclick="deleteRow(<%=i%>)">삭제</button>
                 </div>
             </td>
         </tr>
