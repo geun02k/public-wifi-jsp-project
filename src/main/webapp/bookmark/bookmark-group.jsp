@@ -56,7 +56,7 @@
         <td><%=groupList.get(i).getUpdateDt() == null ? "" : groupList.get(i).getUpdateDt()%></td>
         <td>
             <div class="center-align-div">
-                <a href="" class="inline-block-btn">수정</a>
+                <a href="bookmark-group-edit.jsp?code=<%=groupList.get(i).getCode()%>" class="inline-block-btn">수정</a>
                 <a href="" class="inline-block-btn">삭제</a>
             </div>
         </td>

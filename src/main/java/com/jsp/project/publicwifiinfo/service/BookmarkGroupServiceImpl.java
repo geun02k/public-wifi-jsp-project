@@ -14,6 +14,11 @@ public class BookmarkGroupServiceImpl implements BookmarkGroupService {
     }
 
     @Override
+    public BookmarkGroup getGroup(BookmarkGroup group) {
+        return groupRepository.selectBookmarkGroupByCode(group);
+    }
+
+    @Override
     public int saveGroup(BookmarkGroup group) {
         String groupName = group.getName();
         int groupSeq = group.getSeq();
@@ -38,7 +43,30 @@ public class BookmarkGroupServiceImpl implements BookmarkGroupService {
 
     @Override
     public int updateGroup(BookmarkGroup group) {
-        return 0;
+        String groupName = group.getName();
+        int groupSeq = group.getSeq();
+        int groupCode = group.getCode();
+
+        // validation check
+        if(groupName == null || groupName.trim().equals("")) {
+            return -5;
+        }
+
+        if(groupSeq <= 0) {
+            return -5;
+        }
+
+        if(groupCode <= 0) {
+            return -5;
+        }
+
+        //순서중복제거
+        int duplCnt = groupRepository.selectBookmarkGroupCntBySeq(groupSeq);
+        if(duplCnt > 0) {
+            return -10;
+        }
+
+        return groupRepository.updateBookmarkGroup(group);
     }
 
     @Override

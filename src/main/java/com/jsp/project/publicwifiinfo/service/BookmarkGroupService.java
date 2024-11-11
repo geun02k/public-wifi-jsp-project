@@ -5,8 +5,11 @@ import com.jsp.project.publicwifiinfo.model.BookmarkGroup;
 import java.util.List;
 
 public interface BookmarkGroupService {
-    // 북마크그룹 조회
+    // 북마크그룹목록 조회
     List<BookmarkGroup> getGroupList();
+
+    // 북마크그룹 단건 조회
+    BookmarkGroup getGroup(BookmarkGroup group);
 
     // 북마크그룹 생성
     int saveGroup(BookmarkGroup group);
